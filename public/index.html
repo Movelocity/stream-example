@@ -4,33 +4,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Video Stream Player</title>
-    <script src="https://cdn.bootcss.com/flv.js/1.5.0/flv.min.js"></script>
+    <script src="./flv.min.js"></script>
     <style>
         .video-container {
             max-width: 800px;
             margin: 20px auto;
+            text-align: center;
         }
         video {
             width: 100%;
             height: auto;
+        }
+        .play-button {
+            margin: 10px 0;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+        .play-button:hover {
+            background-color: #45a049;
         }
     </style>
 </head>
 <body>
     <div class="video-container">
         <video id="videoElement" controls></video>
+        <button id="playButton" class="play-button">Start Stream</button>
     </div>
 
     <script>
         if (flvjs.isSupported()) {
             var videoElement = document.getElementById('videoElement');
+            var playButton = document.getElementById('playButton');
             var flvPlayer = flvjs.createPlayer({
                 type: 'flv',
                 url: 'http://localhost:8000/live/STREAM_NAME.flv'
             });
+            
             flvPlayer.attachMediaElement(videoElement);
             flvPlayer.load();
-            flvPlayer.play();
+
+            playButton.addEventListener('click', function() {
+                flvPlayer.play();
+                playButton.style.display = 'none';
+            });
         }
     </script>
 </body>
